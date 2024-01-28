@@ -2,8 +2,13 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Database connection (replace dbname, username, password with your actual values)
-    $conn = new mysqli("localhost", "root", "", "dbname");
+    
+    $server = 'localhost';
+    $username = 'root';
+    $password = '';
+    $dbname = 'ecommerce';
+
+    $conn = new mysqli($server, $username, $password, $dbname);
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
