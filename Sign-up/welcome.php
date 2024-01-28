@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["username"])) {
+if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
 }
@@ -18,9 +18,14 @@ if (!isset($_SESSION["username"])) {
 </head>
 <body>
     <div class="container">
-        <h2>Welcome, <?php echo $_SESSION["username"]; ?>!</h2>
-        <p>You have successfully signed up.</p>
-        <a href="logout.php">Logout</a>
+        <?php if (isset($_SESSION["name"])) : ?>
+            <h2>Welcome, <?php echo $_SESSION["name"]; ?>!</h2>
+            <p>You have successfully signed up.</p>
+            <a href="logout.php">Logout</a>
+        <?php else : ?>
+            <p>Welcome!</p>
+            <a href="logout.php">Logout</a>
+        <?php endif; ?>
     </div>
 </body>
 </html>
