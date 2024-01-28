@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION["email"])) {
-    header("Location: index.php");
+    header("Location: sign-in.php");
     exit();
 }
 ?>
@@ -18,14 +18,9 @@ if (!isset($_SESSION["email"])) {
 </head>
 <body>
     <div class="container">
-        <?php if (isset($_SESSION["name"])) : ?>
-            <h2>Welcome, <?php echo $_SESSION["name"]; ?>!</h2>
-            <p>You have successfully signed up.</p>
-            <a href="logout.php">Logout</a>
-        <?php else : ?>
-            <p>Welcome!</p>
-            <a href="logout.php">Logout</a>
-        <?php endif; ?>
+        <h2>Welcome, <?php echo $_SESSION["name"]; ?>!</h2>
+        <p>You have successfully signed in.</p>
+        <a href="logout.php">Logout</a>
     </div>
 </body>
 </html>
