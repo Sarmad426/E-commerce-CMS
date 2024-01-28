@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (isset($_SESSION["email"])) {
+    header("Location: welcome.php");
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Database connection (replace dbname, username, password with your actual values)
     $conn = new mysqli("localhost", "root", "", "ecommerce");
