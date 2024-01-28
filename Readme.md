@@ -1,6 +1,6 @@
 # PHP CMS
 
-This is an E-commerce **CMS** built with **PHP**.
+This is an E-commerce **CMS** (Content Management System) built with **PHP**.
 
 ## Tech Stack
 
