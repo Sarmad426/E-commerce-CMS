@@ -6,8 +6,10 @@ if (isset($_SESSION["email"])) {
     exit();
 }
 
+$errors = array();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Database connection (replace dbname, username, password with your actual values)
+    // Database connection (replace username, password with your actual values)
     $conn = new mysqli("localhost", "root", "", "ecommerce");
 
     if ($conn->connect_error) {
@@ -19,8 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate user input
     if (empty($email) || empty($password)) {
-        header("Location: sign-in.php?error=All fields are required");
-        exit();
+        $errors[] = "All fields are required";
     }
 
     // Check if the user exists
@@ -38,14 +39,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: welcome.php");
             exit();
         } else {
-            header("Location: sign-in.php?error=Incorrect password");
-            exit();
+            $errors[] = "Invalid password";
         }
     } else {
-        header("Location: sign-in.php?error=User not found");
-        exit();
+        $errors[] = "Invalid email";
     }
 
     $conn->close();
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sign In</title>
+</head>
+<body>
+    <div class="container">
+        <form action="sign-in.php" method="post">
+            <h2>Sign In</h2>
+            <?php if (!empty($errors)) : ?>
+                <div class="error-container">
+                    <?php foreach ($errors as $error) : ?>
+                        <p class="error"><?php echo $error; ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+</body>
+</html>
