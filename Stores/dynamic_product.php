@@ -29,6 +29,12 @@ if (isset($_GET['id'])) {
     exit();
 }
 
+// Check if the user is the owner of the product
+$editButtonVisible = false;
+if (isset($_SESSION['id']) && $_SESSION['id'] == $product['user_id']) {
+    $editButtonVisible = true;
+}
+
 $conn->close();
 ?>
 
@@ -49,7 +55,10 @@ $conn->close();
         <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['title']; ?>">
         <p><?php echo $product['description']; ?></p>
         <p>Price: $<?php echo $product['price']; ?></p>
-        <!-- Additional product details can be added here -->
+
+        <?php if ($editButtonVisible) : ?>
+            <a href="edit_product.php?id=<?php echo $product_id; ?>">Edit Product</a>
+        <?php endif; ?>
     </div>
 </div>
 
