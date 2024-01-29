@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Page</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <?php
+session_start();
+
+// Check if the user is not logged in, redirect them to the sign-in page
+if (!isset($_SESSION["email"])) {
+    header("Location: signin.php");
+    exit();
+}
+?>
+
+    <div class="sidenav">
+      <select id="storeSelect" onchange="redirectToStore()">
+        <option value="" disabled selected>Select Store</option>
+        <!-- Replace the following options with stores the user has -->
+        <option value="store1">Store 1</option>
+        <option value="store2">Store 2</option>
+        <option value="store3">Store 3</option>
+        <!-- Add more options as needed -->
+      </select>
+    </div>
+
+    <div class="main">
+      <!-- Page content goes here -->
+      <h1>
+        Welcome to the Responsive Page,
+        <?php echo $_SESSION["name"]; ?>!
+      </h1>
+    </div>
+
+    <script>
+      function redirectToStore() {
+        var selectedStore = document.getElementById("storeSelect").value;
+        if (selectedStore) {
+          window.location.href = selectedStore + "_page.php"; // Redirect to the specific store page
+        }
+      }
+    </script>
+  </body>
+</html>
