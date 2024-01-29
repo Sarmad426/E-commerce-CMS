@@ -11,7 +11,7 @@
         <?php
         session_start();
         if (isset($_SESSION["id"])) {
-            header("Location: welcome.php");
+            header("Location: ../welcome.php");
             exit();
         }
         ?>

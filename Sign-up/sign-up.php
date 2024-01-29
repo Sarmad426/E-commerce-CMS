@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->query($sql) === TRUE) {
         $_SESSION["name"] = $name;  // Store the name in the session
         $_SESSION["id"] = $conn->insert_id; // Store the user id in the session
-        header("Location: welcome.php");
+        header("Location: ../welcome.php");
         exit();
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;

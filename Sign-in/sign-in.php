@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $hashed_password)) {
             $_SESSION["name"] = $row["name"];
             $_SESSION["id"] = $row["id"]; // Store the user id in the session
-            header("Location: welcome.php");
+            header("Location: ../welcome.php");
             exit();
         } else {
             $errors[] = "Invalid password";
