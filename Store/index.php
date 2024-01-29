@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Page</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
 <?php
 session_start();
 
@@ -17,76 +7,53 @@ if (!isset($_SESSION["id"])) {
     exit();
 }
 
-// Handle store selection from the URL
-$selectedStore = isset($_GET['store']) ? $_GET['store'] : '';
-
-// Simulate fetching stores for the logged-in user from the database
-$userId = $_SESSION['id']; // Assuming your 'users' table has a 'user_id' column
-
+// Database connection (replace username, password with your actual values)
 $conn = new mysqli("localhost", "root", "", "ecommerce");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM store WHERE user_id = 10";
-$result = $conn->query($sql);
+$user_id = $_SESSION["id"];
 
-if (!$result) {
-    die("Query failed: " . $conn->error);
-}
+// Fetch user's stores from the store table
+$stores_sql = "SELECT * FROM store WHERE user_id = $user_id";
+$stores_result = $conn->query($stores_sql);
 
 $stores = array();
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $stores[] = $row;
+if ($stores_result && $stores_result->num_rows > 0) {
+    while ($store_row = $stores_result->fetch_assoc()) {
+        $stores[] = $store_row;
     }
 }
 
 $conn->close();
 ?>
 
-<div class="sidenav">
-    <select id="storeSelect" onchange="redirectToStore()">
-        <option value="" disabled selected>Select Store</option>
-        <?php foreach ($stores as $store) : ?>
-            <option value="<?php echo $store['id']; ?>"><?php echo $store['name']; ?></option>
-        <?php endforeach; ?>
-    </select>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>User Dashboard</title>
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to Your Dashboard, <?php echo $_SESSION["name"]; ?>!</h1>
+
+    <form action="dynamic_store.php" method="get">
+        <label for="storeSelect">Select a Store:</label>
+        <select id="storeSelect" name="store_id">
+            <?php foreach ($stores as $store) : ?>
+                <option value="<?php echo $store['id']; ?>"><?php echo $store['name']; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit">Go to Store</button>
+    </form>
 </div>
-
-<div class="main">
-    <!-- Page content goes here -->
-    <h1>Welcome to the Responsive Page, <?php echo $_SESSION["name"]; ?>!</h1>
-
-    <?php
-    // Display store-specific content based on the selected store
-    if ($selectedStore) {
-        $storeInfo = getStoreInfo($selectedStore);
-        echo "<p>{$storeInfo}</p>";
-    }
-    ?>
-</div>
-
-<script>
-    function redirectToStore() {
-        var selectedStore = document.getElementById("storeSelect").value;
-        if (selectedStore) {
-            window.location.href = 'responsive_page.php?store=' + selectedStore;
-        }
-    }
-</script>
 
 </body>
 </html>
-
-<?php
-function getStoreInfo($storeId) {
-    // Simulate fetching store info from the database based on the selected store ID
-    // You can modify this function to fetch actual data from your database
-    $storeName = "Store " . $storeId;
-    $userName = $_SESSION["name"];
-    return "{$storeName} is owned by {$userName}";
-}
-?>
