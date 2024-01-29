@@ -12,7 +12,7 @@
 session_start();
 
 // Check if the user is not logged in, redirect them to the sign-in page
-if (!isset($_SESSION["email"])) {
+if (!isset($_SESSION["id"])) {
     header("Location: ../Sign-in");
     exit();
 }
@@ -21,7 +21,7 @@ if (!isset($_SESSION["email"])) {
 $selectedStore = isset($_GET['store']) ? $_GET['store'] : '';
 
 // Simulate fetching stores for the logged-in user from the database
-$userId = $_SESSION['email']; // Assuming your 'users' table has a 'user_id' column
+$userId = $_SESSION['id']; // Assuming your 'users' table has a 'user_id' column
 
 $conn = new mysqli("localhost", "root", "", "ecommerce");
 
