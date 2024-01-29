@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (isset($_SESSION["email"])) {
+if (isset($_SESSION["id"])) {
     header("Location: welcome.php");
     exit();
 }
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($conn->query($sql) === TRUE) {
         $_SESSION["name"] = $name;  // Store the name in the session
-        $_SESSION["email"] = $email;
+        $_SESSION["id"] = $conn->insert_id; // Store the user id in the session
         header("Location: welcome.php");
         exit();
     } else {
@@ -36,3 +36,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
+<!-- Your existing HTML form code for the Sign-up page goes here -->

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (isset($_SESSION["email"])) {
+if (isset($_SESSION["id"])) {
     header("Location: welcome.php");
     exit();
 }
@@ -28,14 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM users WHERE email = '$email'";
     $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
+    if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $hashed_password = $row["password"];
 
         // Verify the password
         if (password_verify($password, $hashed_password)) {
             $_SESSION["name"] = $row["name"];
-            $_SESSION["email"] = $email;
+            $_SESSION["id"] = $row["id"]; // Store the user id in the session
             header("Location: welcome.php");
             exit();
         } else {
