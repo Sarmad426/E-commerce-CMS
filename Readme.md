@@ -16,4 +16,3 @@ This is an E-commerce **CMS** (Content Management System) built with **PHP**.
 - Add your products
 - Edit your products
 - Delete your products
-- Others can't access your products
